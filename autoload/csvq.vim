@@ -7,7 +7,7 @@ function! CSVQ#CSVQ()
     let target_file = getline(1)
     let query = join(getline(2, "$"), ' ')
     let query = query[0:match(query, ';')]
-    let cmd = "nkf --oc=utf8 " . target_file . " | csvq \"" . query . "\""
+    let cmd = "nkf --oc=utf8 " . target_file . " | csvq -f csv \"" . query . "\""
     let result = split(system(cmd), '\n')
     execute("normal Go")
     call append('.', result)
