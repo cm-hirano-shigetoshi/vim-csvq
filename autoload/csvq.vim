@@ -4,10 +4,6 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! CSVQ#CSVQ()
-    let string = "012345"
-    let substr = string[2:match(string, '4')]
-    echomsg substr
-
     let target_file = getline(1)
     let query = join(getline(2, "$"), ' ')
     let query = query[0:match(query, ';')]
