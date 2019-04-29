@@ -17,13 +17,38 @@ function! CSVQ#CSVQ()
     if len(semi_colons) < 1
         return
     elseif len(semi_colons) == 1
-        let query = join(getline(1, semi_colons[-1]), ' ')
+        if getline(1)[0:2] == "-- "
+            let opts = getline(1)[3:]
+            let query = join(getline(2, semi_colons[-1]), ' ')
+        else
+            let opts = ""
+            let query = join(getline(1, semi_colons[-1]), ' ')
+        endif
         let data = getline(semi_colons[0]+1, '$')
+    elseif len(semi_colons) > 1
+        if getline(1)[0:2] == "-- "
+            let opts = getline(1)[3:]
+            let start = 2
+        else
+            let opts = ""
+            let start = 1
+        endif
+        let end = 0
+        for i in semi_colons
+            if i < line('.')
+                let start = i + 1
+            else
+                let end = i
+            endif
+        endfor
+        let query = join(getline(start, end), ' ')
+        let query = query[0:match(query, ';')]
+        let data = getline(semi_colons[-1]+1, '$')
     endif
 
     let tmpfile = tempname()
     call writefile(data, tmpfile)
-    let cmd = "nkf --oc=utf8 " . tmpfile . " | csvq -f csv \"" . query . "\""
+    let cmd = "nkf --oc=utf8 " . tmpfile . " | csvq " . opts . " \"" . query . "\""
     let result = split(system(cmd), '\n')
     execute("normal " . semi_colons[-1] . "ggjVG\"_d")
     call append('.', result)
