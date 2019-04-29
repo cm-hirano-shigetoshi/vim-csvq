@@ -17,14 +17,7 @@ function! CSVQ#CSVQ()
     if len(semi_colons) < 1
         return
     elseif len(semi_colons) == 1
-        let i = 1
-        let query = ""
-        while i <= semi_colons[0]
-            let query .= getline(i) . " "
-            let i += 1
-        endwhile
-        let query = query[0:match(query, ';')]
-
+        let query = join(getline(1, semi_colons[-1]), ' ')
         let data = getline(semi_colons[0]+1, '$')
     endif
 
