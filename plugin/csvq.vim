@@ -7,8 +7,7 @@ let g:load_CSVQ = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-"nnoremap <silent> <Plug>(CSVQ) :<C-u>call CSVQ#CSVQ()<CR>
-nnoremap <silent> <F8> :<C-u>call CSVQ#CSVQ()<CR>
+nnoremap <silent> <Plug>(CSVQ) :<C-u>call CSVQ#CSVQ()<CR>
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
