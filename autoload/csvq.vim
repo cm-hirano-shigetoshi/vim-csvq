@@ -48,7 +48,7 @@ function! CSVQ#CSVQ()
 
     let tmpfile = tempname()
     call writefile(data, tmpfile)
-    let cmd = "nkf --oc=utf8 " . tmpfile . " | csvq " . opts . " \"" . query . "\""
+    let cmd = "nkf --oc=utf8 " . tmpfile . " | duckfilter " . opts . " \"" . query . "\""
     let result = split(system(cmd), '\n')
     execute("normal " . semi_colons[-1] . "ggjVG\"_d")
     call append('.', result)
